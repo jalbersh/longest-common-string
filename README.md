@@ -1,9 +1,9 @@
-### Longest Common Substring (LCS) Server
-###Overview
+# Longest Common Substring (LCS) Server
+### Overview
 A simple web application that allows a user to request the longest
 common substring given a list of strings.
 
-###Functional Requirements
+### Functional Requirements
 Solve the Longest Common Substring problem via HTTP POST\
 A user should be able to request the LCS of a Set of Strings by sending a POST request\
 to the server at http://<host>/lcs . The body of the POST request must be a JSON\
@@ -44,7 +44,7 @@ appropriate HTTP status code and a body in the following format:\
 {"value": "cast"}\
 ]\
 }\
-###Bonus
+### Bonus
 The following are not required but might be nice additions to the exercise:\
 Make a Homepage for your server that contains a form that when submitted makes\
 the /lcs POST request.\
