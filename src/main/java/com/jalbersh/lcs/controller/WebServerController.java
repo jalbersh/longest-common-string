@@ -31,16 +31,24 @@ public class WebServerController {
         this.lcsService = orderService;
     }
 
-//    POST /api/order
+//    POST /lcs
 
     // Web client command to make official requests to an instance's application
-    @ApiOperation(value = "Description: returns request", response = ResponseEntity.class)
+    @ApiOperation(value = "Description: returns LCS", response = ResponseEntity.class)
     @RequestMapping(value="/lcs", method = RequestMethod.POST)
-    public ResponseEntity<LCSResponse> placeOrder(@RequestBody LCSRequest request) {
-        logger.info("POST placeOrder");
-        LCSResponse response = lcsService.process(request);
-        ResponseEntity<LCSResponse> result = ResponseEntity.accepted().body(response);
-        return result;
+    public ResponseEntity<LCSResponse> getLCS(@RequestBody LCSRequest request) {
+        logger.info("POST getLCS");
+        LCSResponse result = null;
+        ResponseEntity<LCSResponse> response = null;
+        try {
+            result = lcsService.process(request);
+            response = ResponseEntity.ok().body(result);
+        } catch (Exception e) {
+            result = new LCSResponse();
+            result.getValues().add("Input must be a set of unique strings");
+            response = ResponseEntity.badRequest().body(result);
+        }
+        return response;
     }
 
 }

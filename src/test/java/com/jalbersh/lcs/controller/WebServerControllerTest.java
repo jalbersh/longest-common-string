@@ -26,7 +26,7 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertTrue;
 
-@ContextConfiguration//(locations={"classpath:app-context.xml"})
+@ContextConfiguration
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -63,24 +63,47 @@ public class WebServerControllerTest {
         String arr[] = { "grace", "graceful", "disgraceful","gracefully","disgrace" };
         LCSRequest lcsRequest = new LCSRequest();
         Arrays.stream(arr).forEach(s -> lcsRequest.getItems().add(s));
-        ResponseEntity<LCSResponse> relcsResponse = con.placeOrder(lcsRequest);
-        Assert.assertEquals(202,relcsResponse.getStatusCode().value());
+        ResponseEntity<LCSResponse> relcsResponse = con.getLCS(lcsRequest);
+        Assert.assertEquals(200,relcsResponse.getStatusCode().value());
         LCSResponse lcsResponse = relcsResponse.getBody();
         Assert.assertEquals(1,lcsResponse.getValues().size());
         Assert.assertTrue(lcsResponse.getValues().contains("grace"));
     }
 
-//    @Test
-    public void testRequest_returns_multiple_results() {
-        String arr[] = { "gracebaser", "gracefulbaser", "disgracefulbaser","gracefullybaser","disgracebaser" };
+    @Test
+    public void testRequest_returns_error_message() {
+        String arr[] = { "grace", "grace" };
         LCSRequest lcsRequest = new LCSRequest();
         Arrays.stream(arr).forEach(s -> lcsRequest.getItems().add(s));
-        ResponseEntity<LCSResponse> relcsResponse = con.placeOrder(lcsRequest);
-        Assert.assertEquals(202,relcsResponse.getStatusCode().value());
+        ResponseEntity<LCSResponse> relcsResponse = con.getLCS(lcsRequest);
+        Assert.assertEquals(400,relcsResponse.getStatusCode().value());
+        Assert.assertTrue(relcsResponse.getStatusCode().is4xxClientError());
+        Assert.assertEquals("Input must be a set of unique strings",relcsResponse.getBody().getValues().toArray()[0]);
+    }
+
+    @Test
+    public void testRequest_returns_multiple_results() {
+        String arr[] = { "gracesbaser", "gracefulbaser", "disgracefulbaser","gracefullybaser","disgracebaser" };
+        LCSRequest lcsRequest = new LCSRequest();
+        Arrays.stream(arr).forEach(s -> lcsRequest.getItems().add(s));
+        ResponseEntity<LCSResponse> relcsResponse = con.getLCS(lcsRequest);
+        Assert.assertEquals(200,relcsResponse.getStatusCode().value());
         LCSResponse lcsResponse = relcsResponse.getBody();
         Assert.assertEquals(2,lcsResponse.getValues().size());
         Assert.assertTrue(lcsResponse.getValues().contains("grace"));
         Assert.assertTrue(lcsResponse.getValues().contains("baser"));
+    }
+
+    @Test
+    public void testBaseicTest_return_cast() {
+        String[] arr ={"comcast","comcastic","broadcaster"};
+        LCSRequest lcsRequest = new LCSRequest();
+        Arrays.stream(arr).forEach(s -> lcsRequest.getItems().add(s));
+        ResponseEntity<LCSResponse> relcsResponse = con.getLCS(lcsRequest);
+        Assert.assertEquals(200,relcsResponse.getStatusCode().value());
+        LCSResponse lcsResponse = relcsResponse.getBody();
+        Assert.assertEquals(1,lcsResponse.getValues().size());
+        Assert.assertTrue(lcsResponse.getValues().contains("cast"));
     }
 
 }
