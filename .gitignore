@@ -1,0 +1,22 @@
+.idea/
+*.iml
+out/
+target/
+.DS_Store
+order-service.log
+
+# Ignore Gradle project-specific cache directory
+.gradle
+gradlew.bat
+gradlew
+gradle/
+
+# Ignore Maven command and directory
+mvnw
+mvnw.cmd
+.mvn
+
+# Ignore Gradle build output directory
+build/
+
+junit-4.12.jar
