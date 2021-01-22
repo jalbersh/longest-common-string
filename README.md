@@ -21,11 +21,11 @@ format the server should respond with an appropriate HTTP status code, and a\
 response body explaining that the format of the request was not acceptable.\
 If setOfStrings is empty the server should respond with an HTTP an appropriate\
 status code with a response body explaining that setOfStrings should not be\
-empty.\
+empty.
 
 If the setOfStrings supplied is not a set (i.e. all strings are not unique) the server\
 should respond with an appropriate HTTP status code, and a response\
-body explaining that "setOfStrings" must be a Set.\
+body explaining that "setOfStrings" must be a Set.
 
 If the above conditions are met the server should invoke your algorithm to find the\
 longest common substring of the "values" in the POST body. For example, if the POST
@@ -37,9 +37,9 @@ body was:\
 {"value": "broadcaster"}\
 ]\
 }\
-the longest common substring would be "cast".\
+the longest common substring would be "cast".
  
-If there is more than one LCS return them all in alphabetic order.\
+If there is more than one LCS return them all in alphabetic order.
 
 Once the server has computed the Longest Common Substring it should respond with an\
 appropriate HTTP status code and a body in the following format:\
@@ -57,13 +57,26 @@ HTTP requests and verifying that the responses are appropriate.
 
 ### Notes
 
-This project uses Maven.\
+This project uses Maven.
 
 Added support for Swagger to examine and exercise endpoint.\
-Enter the url \
+Enter the url 
 
 http://localhost:8080/swagger-ui.html
 
-To test the "\lcs" endpoint in Swagger, go to \
+To test the "\lcs" endpoint in Swagger, go to 
 
 http://localhost:8080/swagger-ui.html#/web-server-controller
+
+To run tests, load the project in IntelliJ and run all tests or enter the command
+
+./mvnw test
+
+To build the project, ender the command
+
+./mvnw install
+
+To run the application from the command line, enter the command
+
+java -jar target/LCS.jar
+
