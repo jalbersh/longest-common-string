@@ -23,6 +23,8 @@ import org.junit.Assert;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.net.ConnectException;
+
 @SpringBootTest
 @AutoConfigureWebTestClient(timeout = "100000") // Extend timeout to 100 seconds
 @DisplayName("Test Integration cases for WebServerController")
@@ -97,8 +99,11 @@ public class WebServerControllerIntTest {
             LCSErrorResponse lcsErrorResponse = mapper.readValue(result, LCSErrorResponse.class);
             Assert.assertEquals("Invalid JSON",lcsErrorResponse.getMessage());
             client.close();
+        } catch (ConnectException e) {
+            Assert.assertTrue( e.getMessage().contains("Connection refused"));
         } catch (Exception e) {
             System.out.println("Exception encountered: "+e.getMessage());
+            e.printStackTrace();
             Assert.assertTrue(false);// error happened
         }
     }
@@ -127,6 +132,8 @@ public class WebServerControllerIntTest {
             e.printStackTrace();
             Assert.assertEquals("Bad Request",e.getMessage());
             Assert.assertTrue(false);// error happened
+        } catch (ConnectException e) {
+            Assert.assertTrue(e.getMessage().contains("Connection refused"));
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Exception encountered: "+e.getMessage());
