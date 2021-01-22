@@ -6,7 +6,7 @@
     <groupId>com.jalbersh.lcs</groupId>
     <artifactId>LongestCommonString</artifactId>
     <version>0.1-SNAPSHOT</version>
-    <name>Sample</name>
+    <name>LCS</name>
     <description>LCS Microservice</description>
     <packaging>jar</packaging>
 
@@ -123,7 +123,7 @@
     </dependencies>
 
     <build>
-        <finalName>Sample</finalName>
+        <finalName>LCS</finalName>
         <plugins>
 
              <plugin>
