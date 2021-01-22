@@ -17,13 +17,13 @@ public class LCSResponse {
     }
 
     @JsonProperty("lcs")
-    private Set<String> values;
+    private Set<Value> values;
 
-    public Set<String> getValues() {
+    public Set<Value> getValues() {
         return values;
     }
 
-    public void setValues(Set<String> values) {
+    public void setValues(Set<Value> values) {
         this.values = values;
     }
 

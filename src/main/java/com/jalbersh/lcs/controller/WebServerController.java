@@ -2,6 +2,7 @@ package com.jalbersh.lcs.controller;
 
 import com.jalbersh.lcs.model.LCSRequest;
 import com.jalbersh.lcs.model.LCSResponse;
+import com.jalbersh.lcs.model.Value;
 import com.jalbersh.lcs.service.LCSService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,7 +46,7 @@ public class WebServerController {
             response = ResponseEntity.ok().body(result);
         } catch (Exception e) {
             result = new LCSResponse();
-            result.getValues().add("Input must be a set of unique strings");
+            result.getValues().add(new Value("Input must be a set of unique strings"));
             response = ResponseEntity.badRequest().body(result);
         }
         return response;

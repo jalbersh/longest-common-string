@@ -2,6 +2,7 @@ package com.jalbersh.lcs.controller;
 
 import com.jalbersh.lcs.model.LCSRequest;
 import com.jalbersh.lcs.model.LCSResponse;
+import com.jalbersh.lcs.model.Value;
 import com.jalbersh.lcs.service.LCSService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -62,48 +63,48 @@ public class WebServerControllerTest {
     public void testRequest_returns_result() {
         String arr[] = { "grace", "graceful", "disgraceful","gracefully","disgrace" };
         LCSRequest lcsRequest = new LCSRequest();
-        Arrays.stream(arr).forEach(s -> lcsRequest.getItems().add(s));
+        Arrays.stream(arr).forEach(s -> lcsRequest.getStrings().add(new Value(s)));
         ResponseEntity<LCSResponse> relcsResponse = con.getLCS(lcsRequest);
         Assert.assertEquals(200,relcsResponse.getStatusCode().value());
         LCSResponse lcsResponse = relcsResponse.getBody();
         Assert.assertEquals(1,lcsResponse.getValues().size());
-        Assert.assertTrue(lcsResponse.getValues().contains("grace"));
+        Assert.assertTrue(lcsResponse.getValues().contains(new Value("grace")));
     }
 
     @Test
     public void testRequest_returns_error_message() {
         String arr[] = { "grace", "grace" };
         LCSRequest lcsRequest = new LCSRequest();
-        Arrays.stream(arr).forEach(s -> lcsRequest.getItems().add(s));
+        Arrays.stream(arr).forEach(s -> lcsRequest.getStrings().add(new Value(s)));
         ResponseEntity<LCSResponse> relcsResponse = con.getLCS(lcsRequest);
         Assert.assertEquals(400,relcsResponse.getStatusCode().value());
         Assert.assertTrue(relcsResponse.getStatusCode().is4xxClientError());
-        Assert.assertEquals("Input must be a set of unique strings",relcsResponse.getBody().getValues().toArray()[0]);
+        Assert.assertEquals(new Value("Input must be a set of unique strings"),relcsResponse.getBody().getValues().toArray()[0]);
     }
 
     @Test
     public void testRequest_returns_multiple_results() {
         String arr[] = { "gracesbaser", "gracefulbaser", "disgracefulbaser","gracefullybaser","disgracebaser" };
         LCSRequest lcsRequest = new LCSRequest();
-        Arrays.stream(arr).forEach(s -> lcsRequest.getItems().add(s));
+        Arrays.stream(arr).forEach(s -> lcsRequest.getStrings().add(new Value(s)));
         ResponseEntity<LCSResponse> relcsResponse = con.getLCS(lcsRequest);
         Assert.assertEquals(200,relcsResponse.getStatusCode().value());
         LCSResponse lcsResponse = relcsResponse.getBody();
         Assert.assertEquals(2,lcsResponse.getValues().size());
-        Assert.assertTrue(lcsResponse.getValues().contains("grace"));
-        Assert.assertTrue(lcsResponse.getValues().contains("baser"));
+        Assert.assertTrue(lcsResponse.getValues().contains(new Value("grace")));
+        Assert.assertTrue(lcsResponse.getValues().contains(new Value("baser")));
     }
 
     @Test
-    public void testBaseicTest_return_cast() {
+    public void testBasicTest_return_cast() {
         String[] arr ={"comcast","comcastic","broadcaster"};
         LCSRequest lcsRequest = new LCSRequest();
-        Arrays.stream(arr).forEach(s -> lcsRequest.getItems().add(s));
+        Arrays.stream(arr).forEach(s -> lcsRequest.getStrings().add(new Value(s)));
         ResponseEntity<LCSResponse> relcsResponse = con.getLCS(lcsRequest);
         Assert.assertEquals(200,relcsResponse.getStatusCode().value());
         LCSResponse lcsResponse = relcsResponse.getBody();
         Assert.assertEquals(1,lcsResponse.getValues().size());
-        Assert.assertTrue(lcsResponse.getValues().contains("cast"));
+        Assert.assertTrue(lcsResponse.getValues().contains(new Value("cast")));
     }
 
 }

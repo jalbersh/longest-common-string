@@ -1,6 +1,7 @@
 package com.jalbersh.lcs.service;
 
 import com.jalbersh.lcs.model.LCSRequest;
+import com.jalbersh.lcs.model.Value;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -53,7 +54,7 @@ public class LCSServiceTest {
     public void testProcess_with_bad_input_returns_exception() {
         String arr[] = { "grace", "grace" };
         LCSRequest lcsRequest = new LCSRequest();
-        Arrays.stream(arr).forEach(s -> lcsRequest.getItems().add(s));
+        Arrays.stream(arr).forEach(s -> lcsRequest.getStrings().add(new Value(s)));
         try {
             lcsService.process(lcsRequest);
         } catch (Exception e) {

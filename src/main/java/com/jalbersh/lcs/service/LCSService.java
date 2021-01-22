@@ -2,10 +2,12 @@ package com.jalbersh.lcs.service;
 
 import com.jalbersh.lcs.model.LCSRequest;
 import com.jalbersh.lcs.model.LCSResponse;
+import com.jalbersh.lcs.model.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -18,9 +20,9 @@ public class LCSService {
     public LCSService() {
     }
 
-    public String findLCS(String arr[], Set<String> ignore)
+    public String findLCS(String arr[], Set<String> ignoredSet)
     {
-        ignore.forEach(s -> logger.info("ignoring "+s));
+        ignoredSet.forEach(s -> logger.info("ignoring "+s));
         int n = arr.length; // size of array
         String s = arr[0]; // first word to start
         int len = s.length(); // first word length
@@ -33,16 +35,18 @@ public class LCSService {
                     if (!arr[k].contains(part)) // compare base to substrings
                         break;
                 if (k == n && result.length() < part.length()) // if found substring of greater length, keep it.
-                    if (!ignore.contains(part)) result = part;
+                    if (!ignoredSet.contains(part)) result = part;
             }
         }
         return result;
     }
 
-    private boolean add(Set<String> set, String input) {
+    // method to add string if not part of set of words
+    private boolean addSubstringToIgnoredSet(Set<String> set, String input) {
         AtomicBoolean found = new AtomicBoolean(false);
         if (set.size() != 0) {
             set.forEach(s -> {
+                // word not substring or same as word in set
                 if (s.contains(input) || s.equals(input)) found.set(true);
             });
         }
@@ -50,18 +54,19 @@ public class LCSService {
             set.add(input);
             return true;
         }
+        logger.info(input+" not added");
         return false;
     }
 
     public LCSResponse process(LCSRequest request) throws Exception {
-        Set<String> ignore = new HashSet<>();
-        int size = request.getItems().size();
+        Set<String> ignoredSet = new HashSet<>();
+        int size = request.getStrings().size();
         String[] arr = new String[size];
-        Set<String> inset = new HashSet<String>();
+        Set<String> inset = new HashSet<>();
         AtomicInteger index = new AtomicInteger();
-        request.getItems().forEach(s -> {
-            arr[index.getAndIncrement()] = s;
-            inset.add(s);
+        request.getStrings().forEach(s -> {
+            arr[index.getAndIncrement()] = s.getValue();
+            inset.add(s.getValue());
         });
         System.out.println("insert size="+inset.size());
         if (inset.size() != size || size < 2) {
@@ -69,16 +74,19 @@ public class LCSService {
         }
         String response = "";
         do {
-            logger.info("calling findLCS");
-            response = findLCS(arr, ignore);
+            logger.info("calling findLCS with ");
+            Arrays.stream(arr).forEach(s -> logger.info("input arr: "+s));
+            ignoredSet.forEach(s -> logger.info("ignore arr: "+s));
+            response = findLCS(arr, ignoredSet);
             if (!response.isEmpty()) {
-                logger.info("adding "+response);
-                if (!add(ignore,response)) break;
+                logger.info("trying to add "+response);
+                if (!addSubstringToIgnoredSet(ignoredSet,response)) break;
             }
         } while (!response.isEmpty());
-        logger.info("process ignore size="+ignore.size());
-        Set<String> outset = new HashSet<>();
-        ignore.forEach(s -> outset.add(s));
+        logger.info("process ignore size="+ignoredSet.size());
+        ignoredSet.forEach(s -> logger.info("processed ignore arr: "+s));
+        Set<Value> outset = new HashSet<>();
+        ignoredSet.forEach(s -> outset.add(new Value(s)));
         LCSResponse lcsResponse = new LCSResponse();
         lcsResponse.setValues(outset);
         return lcsResponse;

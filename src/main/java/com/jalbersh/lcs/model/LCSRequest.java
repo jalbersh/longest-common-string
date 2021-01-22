@@ -15,18 +15,18 @@ import java.util.*;
 } */
 public class LCSRequest implements Serializable {
     public LCSRequest() {
-        items = new HashSet<>();
+        strings = new HashSet<>();
     }
 
-    @JsonProperty("setOfStrings")
-    private Set<String> items;
+    @JsonProperty("set_of_strings")
+    private Set<Value> strings;
 
-    public Set<String> getItems() {
-        return items;
+    public Set<Value> getStrings() {
+        return strings;
     }
 
-    public void setItems(Set<String> items) {
-        this.items = items;
+    public void setStrings(Set<Value> strings) {
+        this.strings = strings;
     }
 
     @Override
@@ -34,11 +34,11 @@ public class LCSRequest implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LCSRequest that = (LCSRequest) o;
-        return Objects.equals(items, that.items);
+        return Objects.equals(strings, that.strings);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(items);
+        return Objects.hash(strings);
     }
 }
