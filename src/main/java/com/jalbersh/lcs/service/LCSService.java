@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Service
 public class LCSService {
@@ -92,7 +93,9 @@ public class LCSService {
         logger.info("process ignore size="+ignoredSet.size());
         ignoredSet.forEach(s -> logger.info("processed ignore arr: "+s));
         Set<Value> outset = new HashSet<>();
-        ignoredSet.forEach(s -> outset.add(new Value(s)));
+        Set<Value> finalOutset = outset;
+        ignoredSet.forEach(s -> finalOutset.add(new Value(s)));
+        outset = outset.stream().sorted().collect(Collectors.toSet());
         LCSResponse lcsResponse = new LCSResponse();
         lcsResponse.setValues(outset);
         return lcsResponse;

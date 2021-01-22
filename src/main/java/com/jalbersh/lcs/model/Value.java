@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Value implements Serializable {
+public class Value implements Serializable, Comparable<Value> {
     @JsonProperty("value")
     private String value;
 
@@ -13,6 +13,12 @@ public class Value implements Serializable {
 
     public Value(String value) {
         this.value = value;
+    }
+
+
+    @Override
+    public int compareTo(Value o) {
+        return String.CASE_INSENSITIVE_ORDER.compare(getValue(),o.getValue());
     }
 
     public String getValue() {
@@ -39,4 +45,5 @@ public class Value implements Serializable {
     public boolean contains(String input) {
         return value.contains(input);
     }
+
 }

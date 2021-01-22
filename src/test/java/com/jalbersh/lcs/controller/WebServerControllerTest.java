@@ -96,6 +96,7 @@ public class WebServerControllerTest {
         Assert.assertEquals(2,lcsResponse.getValues().size());
         Assert.assertTrue(lcsResponse.getValues().contains(new Value("grace")));
         Assert.assertTrue(lcsResponse.getValues().contains(new Value("baser")));
+        System.out.println("got "+lcsResponse.getValues());
     }
 
     @Test
