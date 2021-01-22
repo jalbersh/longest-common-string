@@ -12,7 +12,7 @@ public class ApiError {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime timestamp;
     private String message;
-    private String debugMessage;
+    private String debug_message;
 
     private ApiError() {
         timestamp = LocalDateTime.now();
@@ -27,14 +27,14 @@ public class ApiError {
         this();
         this.status = status;
         this.message = "Unexpected error";
-        this.debugMessage = ex.getLocalizedMessage();
+        this.debug_message = ex.getLocalizedMessage();
     }
 
     public ApiError(HttpStatus status, String message, Throwable ex) {
         this();
         this.status = status;
         this.message = message;
-        this.debugMessage = ex.getLocalizedMessage();
+        this.debug_message = ex.getLocalizedMessage();
     }
 
     public HttpStatus getStatus() {
@@ -61,12 +61,12 @@ public class ApiError {
         this.message = message;
     }
 
-    public String getDebugMessage() {
-        return debugMessage;
+    public String getDebug_message() {
+        return debug_message;
     }
 
-    public void setDebugMessage(String debugMessage) {
-        this.debugMessage = debugMessage;
+    public void setDebug_message(String debug_message) {
+        this.debug_message = debug_message;
     }
 
     @Override
@@ -77,11 +77,11 @@ public class ApiError {
         return status == apiError.status &&
                 Objects.equals(timestamp, apiError.timestamp) &&
                 Objects.equals(message, apiError.message) &&
-                Objects.equals(debugMessage, apiError.debugMessage);
+                Objects.equals(debug_message, apiError.debug_message);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(status, timestamp, message, debugMessage);
+        return Objects.hash(status, timestamp, message, debug_message);
     }
 }
