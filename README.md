@@ -78,5 +78,5 @@ To build the project, ender the command
 
 To run the application from the command line, enter the command
 
-java -jar target/LCS.jar
+java -jar LCS.jar
 
