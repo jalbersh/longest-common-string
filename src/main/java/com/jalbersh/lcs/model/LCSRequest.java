@@ -18,7 +18,7 @@ public class LCSRequest implements Serializable {
         strings = new HashSet<>();
     }
 
-    @JsonProperty("set_of_strings")
+    @JsonProperty("setOfStrings")
     private Set<Value> strings;
 
     public Set<Value> getStrings() {

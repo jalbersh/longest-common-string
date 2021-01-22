@@ -54,3 +54,16 @@ Make a Homepage for your server that contains a form that when submitted makes\
 the /lcs POST request.\
 Create a script that exercises and verifies the functionality of your server by making\
 HTTP requests and verifying that the responses are appropriate.
+
+### Notes
+
+This project uses Maven.\
+
+Added support for Swagger to examine and exercise endpoint.\
+Enter the url \
+
+http://localhost:8080/swagger-ui.html
+
+To test the "\lcs" endpoint in Swagger, go to \
+
+http://localhost:8080/swagger-ui.html#/web-server-controller

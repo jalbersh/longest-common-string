@@ -1,5 +1,6 @@
 package com.jalbersh.lcs.controller;
 
+import com.jalbersh.lcs.error.LCSErrorResponse;
 import com.jalbersh.lcs.model.LCSRequest;
 import com.jalbersh.lcs.model.LCSResponse;
 import com.jalbersh.lcs.model.Value;
@@ -37,17 +38,18 @@ public class WebServerController {
     // Web client command to make official requests to an instance's application
     @ApiOperation(value = "Description: returns LCS", response = ResponseEntity.class)
     @RequestMapping(value="/lcs", method = RequestMethod.POST)
-    public ResponseEntity<LCSResponse> getLCS(@RequestBody LCSRequest request) {
+    public ResponseEntity getLCS(@RequestBody LCSRequest request) {
         logger.info("POST getLCS");
         LCSResponse result = null;
-        ResponseEntity<LCSResponse> response = null;
+        ResponseEntity<?> response = null;
         try {
             result = lcsService.process(request);
             response = ResponseEntity.ok().body(result);
         } catch (Exception e) {
-            result = new LCSResponse();
-            result.getValues().add(new Value("Input must be a set of unique strings"));
-            response = ResponseEntity.badRequest().body(result);
+            LCSErrorResponse lcsErrorResponse = new LCSErrorResponse();
+            lcsErrorResponse.setError(400);
+            lcsErrorResponse.setMessage("Input must be a set of unique strings");
+            response = ResponseEntity.badRequest().body(lcsErrorResponse);
         }
         return response;
     }
