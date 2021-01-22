@@ -25,6 +25,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertTrue;
 
@@ -86,7 +89,7 @@ public class WebServerControllerTest {
     }
 
     @Test
-    public void testRequest_returns_multiple_results() {
+    public void testRequest_returns_multiple_results_in_order() {
         String arr[] = { "gracesbaser", "gracefulbaser", "disgracefulbaser","gracefullybaser","disgracebaser" };
         LCSRequest lcsRequest = new LCSRequest();
         Arrays.stream(arr).forEach(s -> lcsRequest.getStrings().add(new Value(s)));
@@ -97,6 +100,12 @@ public class WebServerControllerTest {
         Assert.assertTrue(lcsResponse.getValues().contains(new Value("grace")));
         Assert.assertTrue(lcsResponse.getValues().contains(new Value("baser")));
         System.out.println("got "+lcsResponse.getValues());
+        // confirm order
+        Set<Value> expected = new HashSet();
+        expected.add(new Value("baser"));
+        expected.add(new Value("grace"));
+        expected = expected.stream().sorted().collect(Collectors.toSet());
+        Assert.assertEquals(expected,lcsResponse.getValues());
     }
 
     @Test

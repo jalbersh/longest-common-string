@@ -15,6 +15,12 @@ public class Value implements Serializable, Comparable<Value> {
         this.value = value;
     }
 
+    @Override
+    public String toString() {
+        return "Value{" +
+                "value='" + value + '\'' +
+                '}';
+    }
 
     @Override
     public int compareTo(Value o) {
