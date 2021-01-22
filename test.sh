@@ -1,0 +1,1 @@
+curl -X POST "http://localhost:8080/lcs" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"setOfStrings\": [ { \"value\": \"comcast\" }, { \"value\": \"comcastic\" }, { \"value\": \"broadcaster\" } ]}"
