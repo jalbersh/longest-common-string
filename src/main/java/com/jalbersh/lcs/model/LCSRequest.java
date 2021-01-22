@@ -1,6 +1,8 @@
 package com.jalbersh.lcs.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.*;
@@ -13,11 +15,13 @@ import java.util.*;
 {"value": "broadcaster"}
 ]
 } */
+@ApiModel
 public class LCSRequest implements Serializable {
     public LCSRequest() {
         strings = new HashSet<>();
     }
 
+    @ApiModelProperty(name = "setOfStrings", dataType = "Set", example = "[{\"value\": \"comcast\"},{\"value\": \"comcastic\"},{\"value\": \"broadcaster\"}]")
     @JsonProperty("setOfStrings")
     private Set<Value> strings;
 
