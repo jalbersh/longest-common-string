@@ -1,5 +1,7 @@
 package com.jalbersh.lcs.service;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.jalbersh.lcs.error.LCSSetException;
 import com.jalbersh.lcs.model.LCSRequest;
 import com.jalbersh.lcs.model.LCSResponse;
 import com.jalbersh.lcs.model.Value;
@@ -61,6 +63,10 @@ public class LCSService {
     public LCSResponse process(LCSRequest request) throws Exception {
         Set<String> ignoredSet = new HashSet<>();
         int size = request.getStrings().size();
+        if (size == 0) {
+            throw new LCSSetException("Invalid JSON");
+        }
+        logger.info("size="+size);
         String[] arr = new String[size];
         Set<String> inset = new HashSet<>();
         AtomicInteger index = new AtomicInteger();
@@ -70,7 +76,7 @@ public class LCSService {
         });
         System.out.println("insert size="+inset.size());
         if (inset.size() != size || size < 2) {
-            throw new Exception("Input must be a set of unique strings");
+            throw new LCSSetException("Input must be a set of unique strings");
         }
         String response = "";
         do {

@@ -1,5 +1,6 @@
 package com.jalbersh.lcs.service;
 
+import com.jalbersh.lcs.error.LCSSetException;
 import com.jalbersh.lcs.model.LCSRequest;
 import com.jalbersh.lcs.model.Value;
 import org.junit.After;
@@ -57,8 +58,10 @@ public class LCSServiceTest {
         Arrays.stream(arr).forEach(s -> lcsRequest.getStrings().add(new Value(s)));
         try {
             lcsService.process(lcsRequest);
-        } catch (Exception e) {
+        } catch (LCSSetException e) {
             Assert.assertEquals("Input must be a set of unique strings",e.getMessage());
+        } catch (Exception e) {
+            Assert.assertEquals("something else",e.getMessage());
         }
     }
 

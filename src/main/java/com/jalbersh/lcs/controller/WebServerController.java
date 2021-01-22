@@ -1,6 +1,7 @@
 package com.jalbersh.lcs.controller;
 
 import com.jalbersh.lcs.error.LCSErrorResponse;
+import com.jalbersh.lcs.error.LCSSetException;
 import com.jalbersh.lcs.model.LCSRequest;
 import com.jalbersh.lcs.model.LCSResponse;
 import com.jalbersh.lcs.model.Value;
@@ -45,10 +46,15 @@ public class WebServerController {
         try {
             result = lcsService.process(request);
             response = ResponseEntity.ok().body(result);
+        } catch (LCSSetException e) {
+            LCSErrorResponse lcsErrorResponse = new LCSErrorResponse();
+            lcsErrorResponse.setError(400);
+            lcsErrorResponse.setMessage(e.getMessage());
+            response = ResponseEntity.badRequest().body(lcsErrorResponse);
         } catch (Exception e) {
             LCSErrorResponse lcsErrorResponse = new LCSErrorResponse();
             lcsErrorResponse.setError(400);
-            lcsErrorResponse.setMessage("Input must be a set of unique strings");
+            lcsErrorResponse.setMessage(e.getMessage());
             response = ResponseEntity.badRequest().body(lcsErrorResponse);
         }
         return response;
