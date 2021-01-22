@@ -6,7 +6,7 @@ common substring given a list of strings.
 ### Functional Requirements
 Solve the Longest Common Substring problem via HTTP POST\
 A user should be able to request the LCS of a Set of Strings by sending a POST request\
-to the server at http://<host>/lcs . The body of the POST request must be a JSON\
+to the server at http://localhost:8080/lcs . The body of the POST request must be a JSON\
 object representing a Set of strings in the following format:\
 {\
 "setOfStrings": [\
@@ -52,8 +52,14 @@ appropriate HTTP status code and a body in the following format:\
 The following are not required but might be nice additions to the exercise:\
 Make a Homepage for your server that contains a form that when submitted makes\
 the /lcs POST request.\
-Create a script that exercises and verifies the functionality of your server by making\
-HTTP requests and verifying that the responses are appropriate.
+This was presented in the Swagger interface, as noted below.\
+The following script exercises and verifies the functionality of your server by making\
+an HTTP request using curl and verifying that the responses are appropriate.
+
+Unix/Linux: ./test.sh (runs a curl command, output the response) \
+Unix/Linux: ./verify.sh confirms the output of test.sh \
+Windows: test.bat (runs the curl command) \
+Windows: verify.bat (confirms the output of test.bat)
 
 ### Notes
 

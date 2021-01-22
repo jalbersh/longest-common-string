@@ -1,1 +1,1 @@
-./test.sh | grep -q 'cast' && echo 'matched' 
+test.bat | find /N "cast" && echo 'matched'
